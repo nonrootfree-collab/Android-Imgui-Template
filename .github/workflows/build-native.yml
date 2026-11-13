@@ -24,12 +24,11 @@ jobs:
           java-version: '17'
 
       - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Install Android NDK
-        run: |
-          sdkmanager "ndk;27.0.12077973"
-
+  run: |
+    yes | /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager --licenses || true
+    /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager "platform-tools" "ndk;27.0.12077973"
+    echo "ANDROID_HOME=/usr/local/lib/android/sdk" >> $GITHUB_ENV
+    echo "ANDROID_NDK_HOME=/usr/local/lib/android/sdk/ndk/27.0.12077973" >> $GITHUB_ENV
       - name: Build Native Libraries
         run: |
           export ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk/27.0.12077973
